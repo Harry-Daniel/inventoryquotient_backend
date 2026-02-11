@@ -4,5 +4,6 @@ from . import models
 # Register your models here.
 
 @admin.register(models.User)
-class ItemAdmin(admin.ModelAdmin):
-    list_display=['first_name','last_name','username']
+class UserAdmin(admin.ModelAdmin):
+    list_display=['id','first_name','last_name','username']
+    search_fields=['first_name','last_name']
