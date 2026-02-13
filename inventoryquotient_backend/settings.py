@@ -106,7 +106,12 @@ DJOSER = {
     "SERIALIZERS": {
         "user": "users.serializers.CustomUserSerializer",
         "current_user": "users.serializers.CustomUserSerializer",
-    }
+    },
+    "PERMISSIONS": {
+        "user_list": ["rest_framework.permissions.IsAdminUser"],  # for POST
+      
+    },
+    "HIDE_USERS": True,
 }
 
 # Password validation
