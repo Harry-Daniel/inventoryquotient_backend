@@ -9,6 +9,7 @@ psycopg = {extras = ["binary"], version = "*"}
 djangorestframework = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+cloudinary = "*"
 
 [dev-packages]
 
