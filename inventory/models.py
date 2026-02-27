@@ -13,7 +13,12 @@ class Item(models.Model):
     description = models.TextField()
     inventory = models.IntegerField(validators=[MinValueValidator(0)])
     last_update = models.DateTimeField(auto_now=True)
-    image_url = models.CharField(max_length=1000, blank=True, null=True)
+    image_url = models.CharField(max_length=1000)
 
     def __str__(self):
         return self.name
+    class Meta:
+        ordering = ["name"]
+        constraints = [
+        models.UniqueConstraint(fields=["user", "name"], name="unique_user_item")
+    ]
