@@ -17,6 +17,12 @@ class ItemViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
+            if models.Item.objects.filter(user=request.user, name=request.data["name"]).exists():
+              return Response(
+                {"error": "Item already exists"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
             with transaction.atomic():
 
                 image_file = request.FILES.get("image")
