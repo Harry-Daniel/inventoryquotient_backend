@@ -14,6 +14,8 @@ class Item(models.Model):
     inventory = models.IntegerField(validators=[MinValueValidator(0)])
     last_update = models.DateTimeField(auto_now=True)
     image_url = models.CharField(max_length=1000)
+    image_public_id = models.CharField(max_length=1000)
+
 
     def __str__(self):
         return self.name
