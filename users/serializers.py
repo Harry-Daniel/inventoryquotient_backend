@@ -14,6 +14,7 @@ class CustomUserSerializer(BaseUserSerializer):
             "email",
             "username",
             "profile_image_url",
+            'profile_image_public_id'
             "full_name",
         )
         read_only_fields = ("email", "full_name")
