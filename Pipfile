@@ -11,6 +11,7 @@ djoser = "*"
 djangorestframework-simplejwt = "*"
 cloudinary = "*"
 python-dotenv = "*"
+pillow = "*"
 
 [dev-packages]
 
