@@ -17,9 +17,9 @@ class ItemViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            if models.Item.objects.filter(user=request.user, name=request.data["name"]).exists():
+            if models.Item.objects.filter(user=request.user, name__iexact=request.data["name"]).exists():
               return Response(
-                {"error": "Item already exists"},
+                {"error": "Item already exists, search and update it instead."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
