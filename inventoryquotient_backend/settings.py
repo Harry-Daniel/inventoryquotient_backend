@@ -103,6 +103,7 @@ DATABASES = {
 SIMPLE_JWT = {
    "AUTH_HEADER_TYPES": ('JWT',),
    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+   "TOKEN_OBTAIN_SERIALIZER": "users.serializers.CustomTokenObtainPairSerializer",
 }
 
 REST_FRAMEWORK= {

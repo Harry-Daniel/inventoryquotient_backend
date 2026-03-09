@@ -1,4 +1,5 @@
 from djoser.serializers import UserSerializer as BaseUserSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from django.db import transaction
 import cloudinary.uploader
@@ -73,3 +74,9 @@ class CustomUserSerializer(BaseUserSerializer):
 
         except Exception as e:
             raise serializers.ValidationError({"error": str(e)})
+        
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    default_error_messages = {
+        "no_active_account": "Email or password is incorrect"
+    }
