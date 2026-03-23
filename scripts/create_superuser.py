@@ -2,7 +2,7 @@ import os
 import django
 
 # Setup Django (IMPORTANT)
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inventoryquotient_backend.settings")  # 🔁 change if needed
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'inventoryquotient_backend.settings')  # 🔁 change if needed
 django.setup()
 
 from django.contrib.auth import get_user_model
