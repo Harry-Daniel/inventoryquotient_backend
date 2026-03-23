@@ -32,6 +32,8 @@ DEBUG = False
 ALLOWED_HOSTS = ["inventoryquotient.onrender.com"]
 
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Static files
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
