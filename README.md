@@ -41,15 +41,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the project root:
+Copy the example environment file and fill in your values:
 
-```env
-SECRET_KEY=your-django-secret-key
-DATABASE_URL=postgres://user:password@localhost:5432/inventoryquotient
-CLOUDINARY_CLOUD_NAME=your-cloud-name
-CLOUDINARY_API_KEY=your-api-key
-CLOUDINARY_API_SECRET=your-api-secret
+```bash
+cp .env.example .env
 ```
+
+| Variable                 | Description                         |
+|--------------------------|-------------------------------------|
+| `SECRET_KEY`             | Django secret key                   |
+| `DATABASE_URL`           | PostgreSQL connection string        |
+| `CLOUDINARY_CLOUD_NAME`  | Cloudinary cloud name               |
+| `CLOUDINARY_API_KEY`     | Cloudinary API key                  |
+| `CLOUDINARY_API_SECRET`  | Cloudinary API secret               |
 
 Generate a secret key with:
 
