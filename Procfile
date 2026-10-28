@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi
+web: gunicorn inventoryquotient_backend.wsgi
