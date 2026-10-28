@@ -2,7 +2,9 @@
 
 REST API for Inventory Quotient, an inventory tracker where each user manages their own items, each with a stock count and a product image.
 
-Built with Django, Django REST Framework, Djoser and Simple JWT. Images are stored on Cloudinary, data in PostgreSQL. Deployed on Render.
+Built with Django, Django REST Framework, Djoser and Simple JWT. Images are stored on Cloudinary, data in PostgreSQL.
+
+> **Note:** This backend was deployed on Render at `https://inventoryquotient.onrender.com`. That link no longer works: the app ran on a free-tier database instance, which is now down.
 
 ## Features
 
@@ -21,68 +23,6 @@ Built with Django, Django REST Framework, Djoser and Simple JWT. Images are stor
 | Database  | PostgreSQL via `dj-database-url`          |
 | Media     | Cloudinary                                |
 | Serving   | Gunicorn, WhiteNoise for static files     |
-
-## Getting started
-
-### Prerequisites
-
-- Python 3.12
-- A PostgreSQL database
-- A Cloudinary account
-
-### Setup
-
-```bash
-git clone https://github.com/Harry-Daniel/inventoryquotient_backend.git
-cd inventoryquotient_backend
-
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-Copy the example environment file and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-| Variable                 | Description                         |
-|--------------------------|-------------------------------------|
-| `SECRET_KEY`             | Django secret key                   |
-| `DATABASE_URL`           | PostgreSQL connection string        |
-| `CLOUDINARY_CLOUD_NAME`  | Cloudinary cloud name               |
-| `CLOUDINARY_API_KEY`     | Cloudinary API key                  |
-| `CLOUDINARY_API_SECRET`  | Cloudinary API secret               |
-
-Generate a secret key with:
-
-```bash
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-```
-
-Run migrations and start the server:
-
-```bash
-python manage.py migrate
-python manage.py runserver
-```
-
-> `DEBUG` is `False` and `ALLOWED_HOSTS` only lists the production domain. For local development, set `DEBUG = True` and add `localhost` / `127.0.0.1` to `ALLOWED_HOSTS` in `inventoryquotient_backend/settings.py`.
-
-### Creating a superuser
-
-Either run `python manage.py createsuperuser`, or set these environment variables and run the script (useful on hosts without shell access):
-
-```env
-DJANGO_SUPERUSER_EMAIL=admin@example.com
-DJANGO_SUPERUSER_USERNAME=admin
-DJANGO_SUPERUSER_PASSWORD=a-strong-password
-```
-
-```bash
-python create_superuser.py
-```
 
 ## API
 
@@ -136,24 +76,45 @@ Item fields:
 
 When updating, sending a new `image` file replaces the existing image in place. If you send no image, the current one is kept.
 
-Example:
-
-```bash
-curl -X POST https://inventoryquotient.onrender.com/inventory/items/ \
-  -H "Authorization: JWT $ACCESS_TOKEN" \
-  -F name="Widget" \
-  -F description="Blue widget, 10cm" \
-  -F inventory=25 \
-  -F image=@widget.jpg
-```
-
 ## Deployment
 
-The app is set up for Render (or any host that runs a Procfile):
+The project is configured for production on Render:
 
-- Start command: `gunicorn inventoryquotient_backend.wsgi`
-- Set `SECRET_KEY`, `DATABASE_URL` and the three `CLOUDINARY_*` variables in the host's environment
-- Build step: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
+- `DEBUG` is `False`, and `ALLOWED_HOSTS` only allows `inventoryquotient.onrender.com`
+- The database connection comes from `DATABASE_URL` (PostgreSQL)
+- Static files are collected into `staticfiles/` and served by WhiteNoise
+- The app runs under Gunicorn, as set in the `Procfile`:
+
+  ```
+  web: gunicorn inventoryquotient_backend.wsgi
+  ```
+
+### Environment variables
+
+These are set in the host's environment. `.env.example` lists them all, and `settings.py` also loads a `.env` file if one exists.
+
+| Variable                    | Description                          |
+|-----------------------------|--------------------------------------|
+| `SECRET_KEY`                | Django secret key                    |
+| `DATABASE_URL`              | PostgreSQL connection string         |
+| `CLOUDINARY_CLOUD_NAME`     | Cloudinary cloud name                |
+| `CLOUDINARY_API_KEY`        | Cloudinary API key                   |
+| `CLOUDINARY_API_SECRET`     | Cloudinary API secret                |
+| `DJANGO_SUPERUSER_EMAIL`    | Admin email, for `create_superuser.py` |
+| `DJANGO_SUPERUSER_USERNAME` | Admin username                       |
+| `DJANGO_SUPERUSER_PASSWORD` | Admin password                       |
+
+### Build and start
+
+```bash
+pip install -r requirements.txt
+python manage.py collectstatic --noinput
+python manage.py migrate
+python create_superuser.py   # creates the admin from the DJANGO_SUPERUSER_* variables, if it doesn't exist yet
+gunicorn inventoryquotient_backend.wsgi
+```
+
+To deploy it under a different domain, add that domain to `ALLOWED_HOSTS` in `inventoryquotient_backend/settings.py`.
 
 ## Project structure
 
